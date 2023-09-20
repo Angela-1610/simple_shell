@@ -29,6 +29,9 @@ char *get_path(char *name);
 void print_error(char *name, char *tmp, int j);
 void rev_string(char *s, int i);
 char *rev_help(int n);
-void free_func(char **arr);
+int bultin(char *command);
+void handling(char **command, char **av, int *status, int idx);
+void exit_func(char **command, int *status);
+void env_func(char **command, int *status);
 
 #endif

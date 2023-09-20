@@ -37,7 +37,10 @@ int main(int ac, char **av)
 		if (!token)
 			continue;
 
-		status = exec(token, av, idx);
+		if (bultin(token[0]))
+			handling(token, av, &status, idx);
+		else
+			status = exec(token, av, idx);
 
 	}
 
