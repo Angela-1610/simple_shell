@@ -21,7 +21,7 @@ char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
 char *_strdup(char *str);
 
-char **string_token(char *buffer, const char *delimiter);
+char **string_token(char *buffer);
 char *_getline(void);
 int exec(char **ptr1, char **ptr2, int idx);
 char *get_env(char *name);

@@ -7,7 +7,7 @@
  * Return: pointer of tokens
  */
 
-char **string_token(char *buffer,const char *delimiter)
+char **string_token(char *buffer)
 {
 	char *token = NULL, *tmp = NULL;
 	char **array = NULL;
@@ -17,7 +17,7 @@ char **string_token(char *buffer,const char *delimiter)
 		return (NULL);
 
 	tmp = strdup(buffer);
-	token = strtok(tmp, delimeter);
+	token = strtok(tmp);
 	if (token == NULL)
 	{
 		free(buffer);
@@ -27,7 +27,7 @@ char **string_token(char *buffer,const char *delimiter)
 	while (token)
 	{
 		count++;
-		token = strtok(NULL, delimeter);
+		token = strtok(NULL);
 	}
 	free(tmp);
 	array = malloc(sizeof(char *) * (count + 1));
@@ -36,11 +36,11 @@ char **string_token(char *buffer,const char *delimiter)
 		free(buffer);
 		return (NULL);
 	}
-	token = strtok(buffer, delimeter);
+	token = strtok(buffer);
 	while (token)
 	{
 		array[i] = strdup(token);
-		token = strtok(NULL, delimeter);
+		token = strtok(NULL);
 		i++;
 	}
 	free(buffer);
