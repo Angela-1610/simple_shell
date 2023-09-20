@@ -9,18 +9,18 @@
 char **string_token(char *buffer)
 {
 	char *token = NULL, *tmp = NULL;
-	char **array = NULL;
+	char **command = NULL;
 	int i = 0, count = 0;
 
-	if (buffer == NULL)
+	if (!buffer)
 		return (NULL);
 
 	tmp = _strdup(buffer);
 	token = strtok(tmp, delimeter);
 	if (token == NULL)
 	{
-		free(buffer);
-		free(tmp);
+		free(buffer), buffer = NULL;
+		free(tmp), tmp = NULL;
 		return (NULL);
 	}
 	while (token)
@@ -28,21 +28,21 @@ char **string_token(char *buffer)
 		count++;
 		token = strtok(NULL, delimeter);
 	}
-	free(tmp);
-	array = malloc(sizeof(char *) * (count + 1));
-	if (array == NULL)
+	free(tmp), tmp = NULL;
+	command = malloc(sizeof(char *) * (count + 1));
+	if (!command)
 	{
-		free(buffer);
+		free(buffer), buffer = NULL;
 		return (NULL);
 	}
 	token = strtok(buffer, delimeter);
 	while (token)
 	{
-		array[i] = _strdup(token);
+		command[i] = _strdup(token);
 		token = strtok(NULL, delimeter);
 		i++;
 	}
-	free(buffer);
-	array[i] = NULL;
-	return (array);
+	free(buffer), buffer = NULL;
+	command[i] = NULL;
+	return (command);
 }
