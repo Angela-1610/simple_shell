@@ -36,6 +36,7 @@ int exec(char **ptr1, char **ptr2, int idx)
 	else
 	{
 		wait(&status);
+		 free(tmp);
 	}
 
 	return (WEXITSTATUS(status));
