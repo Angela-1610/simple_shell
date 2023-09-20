@@ -1,9 +1,9 @@
-#include"shell.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include "shell.h"
 
 /**
  * main - Entry point
@@ -14,53 +14,32 @@
  * Return: Always zero
  */
 
-char *get_path(char *name)
+int main(int ac, char **av)
 {
-	char *path;
-	char *token, *tmp = NULL;
-	struct stat stx;
-	int i;
+	char *read = NULL, **token = NULL;
+	int status = 0, idx = 0;
+	(void) ac;
 
-	for (i = 0; name[i]; i++)
+	while (1)
 	{
-		if (name[i] == '/')
+		read = _getline();
+
+		if (read == NULL)
 		{
-			 if (stat(name, &stx) == 0)
-			 return (_strdup(name));
-			return (NULL);
-		 }
+			if (isatty(STDIN_FILENO))
+				write(STDOUT_FILENO, "\n", 1);
+			return (status);
+		}
+		idx++;
+
+		token = string_token(read);
+
+		if (!token)
+			continue;
+
+		status = exec(token, av, idx);
+
 	}
 
-	path = _strdup(get_env("PATH"));
-	if (path == NULL)
-		return (NULL);
-
-	token = strtok(path, ":");
-
-		while (token)
-	{
-		tmp = malloc(_strlen(token) + _strlen(name) + 2);
-		if (tmp == NULL)
-		{
-			free(path);
-			return (NULL);
-		}
-
-		_strcpy(tmp, token);
-		_strcat(tmp, "/");
-		_strcat(tmp, name);
-
-		if (stat(tmp, &stx) == 0)
-		{
-			free(path);
-			return (tmp);
-		}
-
-		free(tmp);
-		tmp = NULL;
-		token = strtok(NULL, ":");
-	}
-
-	free(path);
-	return (NULL);
+	return (0);
 }
