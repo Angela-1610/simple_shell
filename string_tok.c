@@ -17,7 +17,7 @@ char **string_token(char *buffer)
 		return (NULL);
 
 	tmp = strdup(buffer);
-	token = strtok(tmp);
+	token = strtok(tmp,delimiter);
 	if (token == NULL)
 	{
 		free(buffer);
@@ -27,7 +27,7 @@ char **string_token(char *buffer)
 	while (token)
 	{
 		count++;
-		token = strtok(NULL);
+		token = strtok(NULL,delimiter);
 	}
 	free(tmp);
 	array = malloc(sizeof(char *) * (count + 1));
@@ -36,11 +36,11 @@ char **string_token(char *buffer)
 		free(buffer);
 		return (NULL);
 	}
-	token = strtok(buffer);
+	token = strtok(buffer,delimiter);
 	while (token)
 	{
 		array[i] = strdup(token);
-		token = strtok(NULL);
+		token = strtok(NULL,delimiter);
 		i++;
 	}
 	free(buffer);
