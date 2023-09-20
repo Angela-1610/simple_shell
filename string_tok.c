@@ -9,11 +9,9 @@
 
 char **string_token(char *buffer)
 {
-	char *token = NULL;
-	char *tmp = NULL;
+	char *token = NULL, *tmp = NULL;
 	char **array = NULL;
-	int i = 0;
-	int count = 0;
+	int i = 0, count = 0;
 
 	if (buffer == NULL)
 		return (NULL);
@@ -22,10 +20,8 @@ char **string_token(char *buffer)
 	token = strtok(tmp, delimeter);
 	if (token == NULL)
 	{
-		free(buffer);
-		buffer = NULL;
-		free(tmp);
-		tmp = NULL;
+		free(buffer), buffer = NULL;
+		free(tmp), tmp = NULL;
 		return (NULL);
 	}
 	while (token)
@@ -33,8 +29,7 @@ char **string_token(char *buffer)
 		count++;
 		token = strtok(NULL, delimeter);
 	}
-	free(tmp);
-	tmp = NULL;
+	free(tmp), tmp = NULL;
 	array = malloc(sizeof(char *) * (count + 1));
 	if (array == NULL)
 	{
@@ -48,8 +43,7 @@ char **string_token(char *buffer)
 		token = strtok(NULL, delimeter);
 		i++;
 	}
-	free(buffer);
-	buffer = NULL;
+	free(buffer), buffer = NULL;
 	array[i] = NULL;
 	return (array);
 }
