@@ -34,11 +34,7 @@ int main(int ac, char **av)
 
 		token = string_token(read);
 
-		if (bultin(token[0]))
-			handling(token, av, &status, idx);
-		else
-			status = exec(token, av, idx);
-
+		status = exec(token, av, idx);
 	}
 
 	return (0);
