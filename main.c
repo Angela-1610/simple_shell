@@ -40,9 +40,6 @@ int main(int ac, char **av)
 		status = exec(token, av, idx);
 
 	}
-	free(token);
-	free(read);
-	free(av);
 
 	return (0);
 }

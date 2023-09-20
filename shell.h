@@ -29,5 +29,6 @@ char *get_path(char *name);
 void print_error(char *name, char *tmp, int j);
 void rev_string(char *s, int i);
 char *rev_help(int n);
+void free_func(char **arr);
 
 #endif
