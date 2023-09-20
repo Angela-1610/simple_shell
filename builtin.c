@@ -36,69 +36,24 @@ void handling(char **command, char **av, int *status, int idx)
 	(void) idx;
 
 	if (_strcmp(command[0], "exit") == 0)
-		exit_func(command, av, status, idx);
+		exit_func(command, status);
 
 	else if (_strcmp(command[0], "env") == 0)
 		env_func(command, status);
-}
-/**
- * positive - check positivity
- * @str: char to check
- *
- * Return: 1 if success or 0 if fail
- */
-
-void positive(char *str)
-{
-	int i;
-
-	if (!str)
-		return (0);
-	for (i = 0; str[i]; i++)
-	{
-		if (str[i] < '0' || str[i] > '9')
-			return (0);
-	}
-	return (1);
 }
 
 /**
  * exit_func - to exit shell
  * @command: the command i want
- * @av: arguments
  * @status: to return
- * @idx: index of type int
  *
  * Return: nothing
  */
 
-void exit_func(char **command, char **av, int *status, int idx)
+void exit_func(char **command, int *status)
 {
-	int value = (*status);
-	char *index, message[] = ":exit";
-
-	if (command[1])
-	{
-		if (positive(command[1]))
-		{
-			value = atoi(command[1]);
-		}
-		else
-		{
-			index = rev_help(idx);
-
-			write(STDERR_FILENO, av[0], _strlen(av[0]));
-			write(STDERR_FILENO, ": ", 2);
-			write(STDERR_FILENO, index, _strlen(index));
-			write(STDERR_FILENO, message, _strlen(message));
-			write(STDERR_FILENO, command[1], _strlen(command[1]));
-			write(STDERR_FILENO, "\n", 1);
-			free(index);
-			return;
-		}
-	}
 	free(command);
-	exit(value);
+	exit((*status));
 }
 
 /**

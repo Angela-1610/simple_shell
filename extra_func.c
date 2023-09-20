@@ -30,25 +30,6 @@ char *rev_help(int n)
 }
 
 /**
- * atoi - changing function
- * @str: char to check
- *
- * Return: result of type int
- */
-
-int atoi(char *str)
-{
-	int i, num = 0;
-
-	for (i = 0; str[i]; i++)
-	{
-		num *= 10;
-		num += (str[i] - '0');
-	}
-	return (num);
-}
-
-/**
  * rev_string - function that reverses a string
  * @s: the string
  * @i: string's size
