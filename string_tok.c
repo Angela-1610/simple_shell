@@ -17,30 +17,30 @@ char **string_token(char *buffer)
 		return (NULL);
 
 	tmp = _strdup(buffer);
-	token = strtok(tmp,delimeter);
+	token = strtok(tmp, delimeter);
 	if (token == NULL)
 	{
-		free(buffer), buffer = NULL ;
-		free(tmp),tmp = NULL;
+		free(buffer), buffer = NULL;
+		free(tmp), tmp = NULL;
 		return (NULL);
 	}
 	while (token)
 	{
 		count++;
-		token = strtok(NULL,delimeter);
+		token = strtok(NULL, delimeter);
 	}
-	free(tmp),tmp = NULL;
+	free(tmp), tmp = NULL;
 	array = malloc(sizeof(char *) * (count + 1));
 	if (array == NULL)
 	{
 		free(buffer);
 		return (NULL);
 	}
-	token = strtok(buffer,delimeter);
+	token = strtok(buffer, delimeter);
 	while (token)
 	{
 		array[i] = _strdup(token);
-		token = strtok(NULL,delimeter);
+		token = strtok(NULL, delimeter);
 		i++;
 	}
 	free(buffer), buffer = NULL;
