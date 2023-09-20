@@ -34,9 +34,6 @@ int main(int ac, char **av)
 
 		token = string_token(read);
 
-		if (!token)
-			continue;
-
 		if (bultin(token[0]))
 			handling(token, av, &status, idx);
 		else

@@ -31,7 +31,9 @@ void rev_string(char *s, int i);
 char *rev_help(int n);
 int bultin(char *command);
 void handling(char **command, char **av, int *status, int idx);
-void exit_func(char **command, int *status);
+void exit_func(char **command, char **av, int *status, int idx);
 void env_func(char **command, int *status);
+int atoi(char *str);
+void positive(char *str);
 
 #endif
