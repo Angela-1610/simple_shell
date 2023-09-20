@@ -43,7 +43,6 @@ char **string_token(char *buffer)
 		i++;
 	}
 	free(buffer);
-	buffer = NULL;
 	array[i] = NULL;
 	return (array);
 }
