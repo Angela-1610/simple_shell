@@ -1,129 +1,154 @@
 #include "shell.h"
-#include <string.h>
 
 /**
- * _strdup - function return pointer to newly allocated space in memory
- * @str: string given as a parameter
- *
- * Return: pointer or null if fail
+ * str_length - returns the length of a string.
+ * @string: pointer to string.
+ * Return: length of string.
  */
-
-char *_strdup(char *str)
+int str_length(char *string)
 {
-	char *z;
-	int i, j;
+	int length = 0;
 
-	if (str == NULL)
+	if (string == NULL)
+		return (0);
+
+	while (string[length++] != '\0')
 	{
-		return (NULL);
 	}
-	for (i = 0; str[i] != '\0'; i++)
-		;
-
-	z = (char *) malloc(i * sizeof(*z) + 1);  /* +1 as the end of string '\0' */
-
-	if (z == NULL)
-		return (NULL);
-
-	for (j = 0; j < i; j++)
-	{
-		z[j] = str[j];
-	}
-
-	return (z);
+	return (--length);
 }
 
-
 /**
- * _strlen - function that returns the length of a string
- * @s: the character
- *
- * Return: length of string
-*/
-
-int _strlen(char *s)
+ * str_duplicate - duplicates an string
+ * @string: String to be copied
+ * Return: pointer to the array
+ */
+char *str_duplicate(char *string)
 {
-	int i;
+	char *result;
+	int length, i;
 
-	for (i = 0; *s != '\0'; s++)
+	if (string == NULL)
+		return (NULL);
+
+	length = str_length(string) + 1;
+
+	result = malloc(sizeof(char) * length);
+
+	if (result == NULL)
 	{
-		i++;
+		errno = ENOMEM;
+		perror("Error");
+		return (NULL);
+	}
+	for (i = 0; i < length ; i++)
+	{
+		result[i] = string[i];
 	}
 
-	return (i);
+	return (result);
 }
 
-
 /**
- * _strcmp - function that compares two strings
- * @s1: the first string
- * @s2: the second string
- *
- * Return: result of compare both
-*/
-
-int _strcmp(char *s1, char *s2)
+ * str_compare - Compare two strings
+ * @string1: String one, or the shorter
+ * @string2: String two, or the longer
+ * @number: number of characters to be compared, 0 if infinite
+ * Return: 1 if the strings are equals,0 if the strings are different
+ */
+int str_compare(char *string1, char *string2, int number)
 {
-	int i = 0;
+	int iterator;
 
-	while (*s1)
+	if (string1 == NULL && string2 == NULL)
+		return (1);
+
+	if (string1 == NULL || string2 == NULL)
+		return (0);
+
+	if (number == 0) /* infinite longitud */
 	{
-		if (*s1 != *s2)
+		if (str_length(string1) != str_length(string2))
+			return (0);
+		for (iterator = 0; string1[iterator]; iterator++)
 		{
-			i = ((int)*s1 - '0') - ((int)*s2 - '0');
-			break;
+			if (string1[iterator] != string2[iterator])
+				return (0);
 		}
-		s1++;
-		s2++;
+		return (1);
+	}
+	else /* if there is a number of chars to be compared */
+	{
+		for (iterator = 0; iterator < number ; iterator++)
+		{
+			if (string1[iterator] != string2[iterator])
+			return (0);
+		}
+		return (1);
+	}
+}
+
+/**
+ * str_concat - concatenates two strings.
+ * @string1: String to be concatenated
+ * @string2: String to be concatenated
+ *
+ * Return: pointer to the array
+ */
+char *str_concat(char *string1, char *string2)
+{
+	char *result;
+	int length1 = 0, length2 = 0;
+
+	if (string1 == NULL)
+		string1 = "";
+	length1 = str_length(string1);
+
+	if (string2 == NULL)
+		string2 = "";
+	length2 = str_length(string2);
+
+	result = malloc(sizeof(char) * (length1 + length2 + 1));
+	if (result == NULL)
+	{
+		errno = ENOMEM;
+		perror("Error");
+		return (NULL);
 	}
 
-	return (i);
+	/* copy of string1 */
+	for (length1 = 0; string1[length1] != '\0'; length1++)
+		result[length1] = string1[length1];
+	free(string1);
+
+	/* copy of string2 */
+	for (length2 = 0; string2[length2] != '\0'; length2++)
+	{
+		result[length1] = string2[length2];
+		length1++;
+	}
+
+	result[length1] = '\0';
+	return (result);
 }
 
 
 /**
- * *_strcat -  function that concatenates two strings
- * @dest: the first string
- * @src: the second string
+ * str_reverse - reverses a string.
  *
- * Return: a pointer to the resulting string dest
-*/
-
-char *_strcat(char *dest, char *src)
+ * @string: pointer to string.
+ * Return: void.
+ */
+void str_reverse(char *string)
 {
-	int x, y;
 
-	x = 0;
-	while (dest[x])
+	int i = 0, length = str_length(string) - 1;
+	char hold;
+
+	while (i < length)
 	{
-		x++;
+		hold = string[i];
+		string[i++] = string[length];
+		string[length--] = hold;
 	}
-	for (y = 0; src[y]; y++)
-	{
-		dest[x] = src[y];
-		x++;
-	}
-
-	return (dest);
-}
-
-
-/**
- * *_strcpy - function that copies the string pointed
- * @src: the string
- * @dest: the copy of the srting
- *
- * Return: the pointer to dest
-*/
-
-char *_strcpy(char *dest, char *src)
-{
-	int i = -1;
-
-	do {
-		i++;
-		dest[i] = src[i];
-	} while (src[i] != '\0');
-
-	return (dest);
 }

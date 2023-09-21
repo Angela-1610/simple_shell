@@ -1,49 +1,42 @@
 #include "shell.h"
-
 /**
- * string_token - to split string to tokens
- * @buffer: pointer of string
- *
- * Return: pointer of tokens
- */
-
-char **string_token(char *buffer)
+ * _strtok - separates strings with delimiters
+ * @line: It´s pointer to array we receive in getline.
+ * @delim: It´s characters we mark off string in parts.
+ * Return: A pointer to the created token
+*/
+char *_strtok(char *line, char *delim)
 {
-	char *token = NULL, *tmp = NULL;
-	char **array = NULL;
-	int i = 0, count = 0;
+	int j;
+	static char *str;
+	char *copystr;
 
-	if (buffer == NULL)
+	if (line != NULL)
+		str = line;
+	for (; *str != '\0'; str++)
+	{
+		for (j = 0; delim[j] != '\0'; j++)
+		{
+			if (*str == delim[j])
+			break;
+		}
+		if (delim[j] == '\0')
+			break;
+	}
+	copystr = str;
+	if (*copystr == '\0')
 		return (NULL);
-
-	tmp = _strdup(buffer);
-	token = strtok(tmp, delimeter);
-	if (token == NULL)
+	for (; *str != '\0'; str++)
 	{
-		free(buffer), buffer = NULL;
-		free(tmp), tmp = NULL;
-		return (NULL);
+		for (j = 0; delim[j] != '\0'; j++)
+		{
+			if (*str == delim[j])
+			{
+				*str = '\0';
+				str++;
+				return (copystr);
+			}
+		}
 	}
-	while (token)
-	{
-		count++;
-		token = strtok(NULL, delimeter);
-	}
-	free(tmp), tmp = NULL;
-	array = malloc(sizeof(char *) * (count + 1));
-	if (array == NULL)
-	{
-		free(buffer);
-		return (NULL);
-	}
-	token = strtok(buffer, delimeter);
-	while (token)
-	{
-		array[i] = _strdup(token);
-		token = strtok(NULL, delimeter);
-		i++;
-	}
-	free(buffer), buffer = NULL;
-	array[i] = NULL;
-	return (array);
+	return (copystr);
 }

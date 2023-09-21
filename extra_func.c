@@ -1,81 +1,86 @@
 #include "shell.h"
 
 /**
- * rev_help - function help in reverse string
- * @n: size od my word
+ * long_to_string - converts a number to a string.
+ * @number: number to be converten in an string.
+ * @string: buffer to save the number as string.
+ * @base: base to convert number
  *
- * Return: new string
+ * Return: Nothing.
  */
-
-char *rev_help(int n)
+void long_to_string(long number, char *string, int base)
 {
-	char buffer[20];
-	int i = 0;
+	int index = 0, inNegative = 0;
+	long cociente = number;
+	char letters[] = {"0123456789abcdef"};
 
-	if (n == 0)
-		buffer[i++] = '0';
-	else
+	if (cociente == 0)
+		string[index++] = '0';
+
+	if (string[0] == '-')
+		inNegative = 1;
+
+	while (cociente)
 	{
-		while (n > 0)
-		{
-			buffer[i++] = (n % 10) + '0';
-			n /= 10;
-		}
+		if (cociente < 0)
+			string[index++] = letters[-(cociente % base)];
+		else
+			string[index++] = letters[cociente % base];
+		cociente /= base;
 	}
+	if (inNegative)
+		string[index++] = '-';
 
-	buffer[i] = '\0';
-	rev_string(buffer, i);
-
-	return (_strdup(buffer));
-}
-
-/**
- * rev_string - function that reverses a string
- * @s: the string
- * @i: string's size
- *
- * Return: nothing
-*/
-
-void rev_string(char *s, int i)
-{
-	char x;
-	int start = 0;
-	int end = i - 1;
-
-	while (start < end)
-	{
-		x = s[start];
-		s[start] = s[end];
-		s[end] = x;
-		start++;
-		end++;
-	}
+	string[index] = '\0';
+	str_reverse(string);
 }
 
 
 /**
- * print_error - prints an error message
- * @name: the first pointer to test
- * @tmp: the second pointer to test
- * @j: will be given length
+ * _atoi - convert a string to an integer.
  *
- * Return: nothing
+ * @s: pointer to str origen.
+ * Return: int of string or 0.
  */
-
-void print_error(char *name, char *tmp, int j)
+int _atoi(char *s)
 {
-	char *index;
-	char message[] = ": not found\n";
+	int sign = 1;
+	unsigned int number = 0;
+	/*1- analisys sign*/
+	while (!('0' <= *s && *s <= '9') && *s != '\0')
+	{
+		if (*s == '-')
+			sign *= -1;
+		if (*s == '+')
+			sign *= +1;
+		s++;
+	}
 
-	index = rev_help(j);
+	/*2 - extract the number */
+	while ('0' <= *s && *s <= '9' && *s != '\0')
+	{
 
-	write(STDERR_FILENO, name, _strlen(name));
-	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, index, _strlen(index));
-	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, tmp, _strlen(tmp));
-	write(STDERR_FILENO, message, _strlen(message));
+		number = (number * 10) + (*s - '0');
+		s++;
+	}
+	return (number * sign);
+}
 
-	free(index);
+/**
+ * count_characters - count the coincidences of character in string.
+ *
+ * @string: pointer to str origen.
+ * @character: string with  chars to be counted
+ * Return: int of string or 0.
+ */
+int count_characters(char *string, char *character)
+{
+	int i = 0, counter = 0;
+
+	for (; string[i]; i++)
+	{
+		if (string[i] == character[0])
+			counter++;
+	}
+	return (counter);
 }
